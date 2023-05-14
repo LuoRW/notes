@@ -8,6 +8,8 @@
   - [Html&CSS](doc/html&css.md)
   - [移动web](doc/移动web.md)
   - [JavaScript-基础](doc/JavaScript-基础.md)
+  - [JavaScript-webAPI](doc/JavaScript-webAPI.md)
+  - [JavaScript-进阶](doc/JavaScript-进阶.md)
 
 - 后端
 
