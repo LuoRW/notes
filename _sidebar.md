@@ -10,6 +10,8 @@
   - [JavaScript-基础](doc/JavaScript-基础.md)
   - [JavaScript-webAPI](doc/JavaScript-webAPI.md)
   - [JavaScript-进阶](doc/JavaScript-进阶.md)
+  - [jQuery](doc/jQuery.md)
+  - [Ajax](doc/ajax.md)
 
 - 后端
 
