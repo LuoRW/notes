@@ -11,7 +11,7 @@
   - [JavaScript-webAPI](doc/JavaScript-webAPI.md)
   - [JavaScript-进阶](doc/JavaScript-进阶.md)
   - [jQuery](doc/jQuery.md)
-  - [Ajax](doc/ajax.md)
+  - [Ajax](doc/Ajax.md)
 
 - 后端
 
