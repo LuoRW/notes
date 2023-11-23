@@ -12,6 +12,7 @@
   - [JavaScript-进阶](doc/JavaScript-进阶.md)
   - [jQuery](doc/jQuery.md)
   - [Ajax](doc/Ajax.md)
+  - [Vue2](doc/Vue2.md)
 
 - 后端
 
