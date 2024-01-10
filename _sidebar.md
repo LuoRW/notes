@@ -20,6 +20,8 @@
   - [Git](doc/git.md)
   - [ES](doc/ES.md)
   - [SpringSecurity-三更](doc/SpringSecurity-三更.md)
+  - [RabbitMQ-blr](doc/RabbitMQ-blr笔记.md)
+  - [RabbitMQ-sgg](doc/RabbitMQ-sgg笔记.md)
 
 - 数据库
 
