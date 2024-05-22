@@ -22,6 +22,7 @@
   - [SpringSecurity-三更](doc/SpringSecurity-三更.md)
   - [RabbitMQ-blr](doc/RabbitMQ-blr笔记.md)
   - [RabbitMQ-sgg](doc/RabbitMQ-sgg笔记.md)
+  - [RabbitMQ-ctl](doc/RabbitMQ-ctl笔记.md)
   - [docker](doc/docker.md)
 
 - 数据库
