@@ -24,6 +24,7 @@
   - [RabbitMQ-sgg](doc/RabbitMQ-sgg笔记.md)
   - [RabbitMQ-ctl](doc/RabbitMQ-ctl笔记.md)
   - [docker](doc/docker.md)
+  - [cas](doc/cas.md)
 
 - 数据库
 
