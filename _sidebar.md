@@ -31,6 +31,10 @@
   - [MySQL](doc/mysql.md)
   - [Redis](doc/redis.md)
 
+- 项目
+
+  - [springboot3-vue3](doc/springboot3-vue3/笔记.md)
+
 - 其他
 
   - [software](/doc/software.md)
