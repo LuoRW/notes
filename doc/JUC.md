@@ -1826,7 +1826,7 @@ class S3 {
 
 ## 4.1共享带来的问题
 
-##### **Java代码示例**
+### Java代码示例
 
 两个线程对初始值为 0 的静态变量一个做自增，一个做自减，各做 5000 次，结果是 0 吗？
 
@@ -1851,7 +1851,7 @@ public static void main(String[] args) throws InterruptedException {
 }
 ```
 
-##### **问题分析** 
+### 问题分析
 
 以上的结果可能是正数、负数、零。为什么呢？因为 Java 中对静态变量的自增，自减并不是原子操作，要彻底理解，必须从字节码来进行分析 
 
@@ -1889,7 +1889,7 @@ putstatic i // 将修改后的值存入静态变量i
 
 ![image-20220302204145687](img\image-20220302204145687.png)
 
-##### **临界区 Critical Section**
+### 临界区 Critical Section
 
 - 一个程序运行多个线程本身是没有问题的 
 
@@ -1917,7 +1917,7 @@ static void decrement()
 
 
 
-##### **竞态条件 Race Condition** 
+### 竞态条件 Race Condition
 
 多个线程在临界区内执行，由于代码的**执行序列不同**而导致结果无法预测，称之为发生了**竞态条件**
 
@@ -1925,7 +1925,7 @@ static void decrement()
 
 ## 4.2 synchronized 解决方案
 
-##### **<font color='green'>*应用之互斥</font>**
+### <font color='green'>*应用之互斥</font>
 
 为了避免临界区的竞态条件发生，有多种手段可以达到目的。 
 
@@ -1943,7 +1943,7 @@ static void decrement()
 
 
 
-##### **synchronized** 
+### synchronized
 
 语法
 
@@ -1998,7 +1998,7 @@ synchronized 实际是用对象锁保证了临界区内代码的原子性，临�
 
 
 
-##### **面向对象改进** 
+### 面向对象改进
 
 把需要保护的共享变量放入一个类
 
@@ -2263,7 +2263,7 @@ public static void main(String[] args) {
 
 ## 4.4 变量的线程安全分析
 
-##### **成员变量和静态变量是否线程安全？** 
+##### 成员变量和静态变量是否线程安全？
 
 - 如果它们没有共享，则线程安全 
 - 如果它们被共享了，根据它们的状态是否能够改变，又分两种情况 
@@ -2272,7 +2272,7 @@ public static void main(String[] args) {
 
 
 
-##### **局部变量是否线程安全？** 
+##### 局部变量是否线程安全？
 
 - 局部变量是线程安全的 
 - 但局部变量引用的对象则未必 
@@ -2281,7 +2281,7 @@ public static void main(String[] args) {
 
 
 
-##### **局部变量线程安全分析**
+##### 局部变量线程安全分析
 
 ```java
 public static void test1() {
@@ -2438,7 +2438,7 @@ class ThreadSafeSubClass extends ThreadSafe{
 
 
 
-##### **常见线程安全类** 
+##### 常见线程安全类 
 
 - String 
 - Integer 
@@ -2465,7 +2465,7 @@ new Thread(()->{
 
 
 
-**线程安全类方法的组合**
+线程安全类方法的组合
 
 分析下面代码是否线程安全？
 
@@ -2521,15 +2521,15 @@ public class Immutable{
 
 ```java
 public class MyServlet extends HttpServlet {
-    // 是否安全？
+    // 是否安全？ 否
     Map<String,Object> map = new HashMap<>();
-    // 是否安全？
+    // 是否安全？ 是
     String S1 = "...";
-    // 是否安全？
+    // 是否安全？ 是
     final String S2 = "...";
-    // 是否安全？
+    // 是否安全？ 否
     Date D1 = new Date();
-    // 是否安全？
+    // 是否安全？ 否
     final Date D2 = new Date();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -2544,7 +2544,7 @@ public class MyServlet extends HttpServlet {
 
 ```java
 public class MyServlet extends HttpServlet {
-    // 是否安全？
+    // 是否安全？ 否
     private UserService userService = new UserServiceImpl();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -2570,7 +2570,7 @@ public class UserServiceImpl implements UserService {
 @Aspect
 @Component
 public class MyAspect {
-    // 是否安全？
+    // 是否安全？ 否
     private long start = 0L;
 
     @Before("execution(* *(..))")
@@ -2592,7 +2592,7 @@ public class MyAspect {
 
 ```java
 public class MyServlet extends HttpServlet {
-    // 是否安全
+    // 是否安全		是
     private UserService userService = new UserServiceImpl();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -2600,7 +2600,7 @@ public class MyServlet extends HttpServlet {
     }
 }
 public class UserServiceImpl implements UserService {
-    // 是否安全
+    // 是否安全		是
     private UserDao userDao = new UserDaoImpl();
 
     public void update() {
@@ -2610,7 +2610,7 @@ public class UserServiceImpl implements UserService {
 public class UserDaoImpl implements UserDao {
     public void update() {
         String sql = "update user set password = ? where username = ?";
-        // 是否安全
+        // 是否安全		是
         try (Connection conn = DriverManager.getConnection("","","")){
             // ...
         } catch (Exception e) {
@@ -2626,7 +2626,7 @@ public class UserDaoImpl implements UserDao {
 
 ```java
 public class MyServlet extends HttpServlet {
-    // 是否安全
+    // 是否安全		是
     private UserService userService = new UserServiceImpl();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -2634,7 +2634,7 @@ public class MyServlet extends HttpServlet {
     }
 }
 public class UserServiceImpl implements UserService {
-    // 是否安全
+    // 是否安全		是
     private UserDao userDao = new UserDaoImpl();
 
     public void update() {
@@ -2642,7 +2642,7 @@ public class UserServiceImpl implements UserService {
     }
 }
 public class UserDaoImpl implements UserDao {
-    // 是否安全
+    // 是否安全 	否
     private Connection conn = null;
     public void update() throws SQLException {
         String sql = "update user set password = ? where username = ?";
@@ -2659,7 +2659,7 @@ public class UserDaoImpl implements UserDao {
 
 ```java
 public class MyServlet extends HttpServlet {
-    // 是否安全
+    // 是否安全		是
     private UserService userService = new UserServiceImpl();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -2673,7 +2673,7 @@ public class UserServiceImpl implements UserService {
     }
 }
 public class UserDaoImpl implements UserDao {
-    // 是否安全
+    // 是否安全		是
     private Connection = null;
     public void update() throws SQLException {
         String sql = "update user set password = ? where username = ?";
@@ -2692,7 +2692,7 @@ public class UserDaoImpl implements UserDao {
 public abstract class Test {
 
     public void bar() {
-        // 是否安全
+        // 是否安全		否
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         foo(sdf);
     }
@@ -2983,6 +2983,8 @@ Monitor 被翻译为**监视器**或**管程**
 
 每个 Java 对象都可以关联一个 Monitor 对象，如果使用 synchronized 给对象上锁（重量级）之后，该对象头的 Mark Word 中就被设置指向 Monitor 对象的指针 
 
+<img src="img/image-20240921112901438.png" alt="image-20240921112901438" style="zoom:50%;" />
+
 Monitor 结构如下
 
 ![image-20220317181913745](img\image-20220317181913745.png)
@@ -3070,7 +3072,7 @@ descriptor: ([Ljava/lang/String;)V
 
 #### 轻量级锁
 
-轻量级锁的使用场景：如果一个对象虽然有多线程要加锁，但加锁的时间是错开的（也就是没有竞争），那么可以使用轻量级锁来优化。 
+轻量级锁的使用场景：如果一个对象虽然有**多线程要加锁**，但**加锁的时间是错开的**（也就是没有竞争），那么可以使用轻量级锁来优化。 
 
 轻量级锁对使用者是透明的，即语法仍然是 synchronized 
 
@@ -3091,7 +3093,7 @@ public static void method2() {
 }
 ```
 
-- 创建锁记录（Lock Record）对象，每个线程都的栈帧都会包含一个锁记录的结构，内部可以存储锁定对象的 Mark Word
+- 创建锁记录（Lock Record）对象，每个线程的栈帧都会包含一个锁记录的结构，内部可以存储锁定对象的 Mark Word
 
   ![image-20220317183003930](img\image-20220317183003930.png)
 
@@ -3123,7 +3125,7 @@ public static void method2() {
 
 #### 锁膨胀
 
-如果在尝试加轻量级锁的过程中，CAS 操作无法成功，这时一种情况就是有其它线程为此对象加上了轻量级锁（有 竞争），这时需要进行锁膨胀，将轻量级锁变为重量级锁。
+如果在尝试加轻量级锁的过程中，CAS 操作无法成功，这时一种情况就是有其它线程为此对象加上了轻量级锁（有 竞争），这时需要进行锁膨胀，将**轻量级锁变为重量级锁**。
 
 ```java
 static Object obj = new Object();
@@ -3150,7 +3152,7 @@ public static void method1() {
 
 #### 自旋优化
 
-重量级锁竞争的时候，还可以使用自旋来进行优化，如果当前线程自旋成功（即这时候持锁线程已经退出了同步 块，释放了锁），这时当前线程就可以避免阻塞。 
+**重量级锁竞争**的时候，还可以使用自旋来进行优化，如果当前线程自旋成功（即这时候持锁线程已经退出了同步 块，释放了锁），这时当前线程就可以避免阻塞。 
 
 自旋重试成功的情况
 
@@ -3191,9 +3193,9 @@ public static void method1() {
 
 #### 偏向锁
 
-轻量级锁在没有竞争时（就自己这个线程），每次重入仍然需要执行 CAS 操作。 
+轻量级锁在没有竞争时（**就自己这个线程**），**每次重入仍然需要执行 CAS 操作**。 
 
-Java 6 中引入了偏向锁来做进一步优化：只有第一次使用 CAS 将线程 ID 设置到对象的 Mark Word 头，之后发现 这个线程 ID 是自己的就表示没有竞争，不用重新 CAS。以后只要不发生竞争，这个对象就归该线程所有 
+Java 6 中引入了偏向锁来做进一步优化：只有第一次使用 CAS 将线程 ID 设置到对象的 Mark Word 头，之后发现这个线程 ID 是自己的，就表示没有竞争，不用重新 CAS。以后只要不发生竞争，这个对象就归该线程所有 
 
 例如：
 
@@ -3334,12 +3336,10 @@ public static void main(String[] args) throws IOException {
 
 ##### 撤销 - 调用对象 hashCode
 
-调用了对象的 hashCode，但偏向锁的对象 MarkWord 中存储的是线程 id，如果调用 hashCode 会导致偏向锁被 撤销 
+调用了对象的 hashCode，但偏向锁的对象 MarkWord 中存储的是线程 id，如果调用 hashCode 会导致偏向锁被撤销 
 
 - 轻量级锁会在锁记录中记录 hashCode 
 - 重量级锁会在 Monitor 中记录 hashCode 
-
-在调用 hashCode 后使用偏向锁，记得去掉`-XX:-UseBiasedLocking `
 
 输出
 
@@ -3372,10 +3372,10 @@ private static void test2() throws InterruptedException {
         // 如果不用 wait/notify 使用 join 必须打开下面的注释
         // 因为：t1 线程不能结束，否则底层线程可能被 jvm 重用作为 t2 线程，底层线程 id 是一样的
         /*try {
- System.in.read();
- } catch (IOException e) {
- e.printStackTrace();
- }*/
+             System.in.read();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }*/
     }, "t1");
     t1.start();
     Thread t2 = new Thread(() -> {
@@ -3408,6 +3408,8 @@ private static void test2() throws InterruptedException {
 
 
 ##### 撤销 - 调用 wait/notify
+
+wait/notify 机制只有重量级锁有
 
 ```java
 public static void main(String[] args) throws InterruptedException {
@@ -3454,7 +3456,7 @@ public static void main(String[] args) throws InterruptedException {
 
 如果对象虽然被多个线程访问，但没有竞争，这时偏向了线程 T1 的对象仍有机会重新偏向 T2，重偏向会重置对象 的 Thread ID 
 
-当撤销偏向锁阈值超过 20 次后，jvm 会这样觉得，我是不是偏向错了呢，于是会在给这些对象加锁时重新偏向至 加锁线程
+当撤销偏向锁阈值超过 20 次后，jvm 会这样觉得，我是不是偏向错了呢，于是会在给这些对象加锁时重新偏向至加锁线程
 
 ```java
 private static void test3() throws InterruptedException {
@@ -3496,6 +3498,10 @@ private static void test3() throws InterruptedException {
 ```
 
 输出
+
+从结果中可以看出前19次都是撤销偏向锁升级为轻量级锁
+
+第二十次开始重新偏向另一线程
 
 ```sh
 [t1] - 0 00000000 00000000 00000000 00000000 00011111 11110011 11100000 00000101 
@@ -3623,7 +3629,7 @@ private static void test3() throws InterruptedException {
 
 ##### 批量撤销 
 
-当撤销偏向锁阈值超过 40 次后，jvm 会这样觉得，自己确实偏向错了，根本就不该偏向。于是整个类的所有对象 都会变为不可偏向的，新建的对象也是不可偏向的
+当撤销偏向锁阈值超过 40 次后，jvm 会这样觉得，自己确实偏向错了，根本就不该偏向。**于是整个类的所有对象 都会变为不可偏向的，新建的对象也是不可偏向的**
 
 ```java
 static Thread t1,t2,t3;
@@ -3689,6 +3695,8 @@ private static void test4() throws InterruptedException {
 
 锁消除
 
+例子中的b方法出现锁消除
+
 ```java
 @Fork(1)
 @BenchmarkMode(Mode.AverageTime)
@@ -3713,6 +3721,8 @@ public class MyBenchmark {
 
 `java -jar benchmarks.jar`
 
+现象：两个方法的执行时间基本相同
+
 ```sh
 Benchmark 			Mode 		Samples 	Score 		Score error 	Units 
 c.i.MyBenchmark.a 	avgt 		5 			1.542 			0.056 		ns/op 
@@ -3720,6 +3730,10 @@ c.i.MyBenchmark.b 	avgt 		5 			1.518 			0.091 		ns/op
 ```
 
 `java -XX:-EliminateLocks -jar benchmarks.jar`
+
+现象：b方法的执行时间长
+
+`-XX:-EliminateLocks` 禁止锁消除
 
 ```sh
 Benchmark 			Mode 		Samples 		Score 		Score error 	Units 
@@ -3885,9 +3899,9 @@ new Thread(() -> {
 20:49:51.888 [其它人] c.TestCorrectPosture - 可以开始干活了
 ```
 
-- 其它干活的线程，都要一直阻塞，效率太低 
-- 小南线程必须睡足 2s 后才能醒来，就算烟提前送到，也无法立刻醒来 
-- 加了 synchronized (room) 后，就好比小南在里面反锁了门睡觉，烟根本没法送进门，main 没加 synchronized 就好像 main 线程是翻窗户进来的 
+- 其它干活的线程，都要一直阻塞，效率太低
+- 小南线程必须睡足 2s 后才能醒来，就算烟提前送到，也无法立刻醒来
+- 加了 synchronized (room) 后，就好比小南在里面反锁了门睡觉，烟根本没法送进门，main 没加 synchronized 就好像 main 线程是翻窗户进来的
 - 解决方法，使用 wait - notify 机制
 
 
@@ -4117,7 +4131,7 @@ class GuardedObject {
     private final Object lock = new Object();
     public Object get() {
         synchronized (lock) {
-// 条件不满足则等待
+			// 条件不满足则等待
             while (response == null) {
                 try {
                     lock.wait();
@@ -4130,7 +4144,7 @@ class GuardedObject {
     }
     public void complete(Object response) {
         synchronized (lock) {
-// 条件满足，通知等待线程
+			// 条件满足，通知等待线程
             this.response = response;
             lock.notifyAll();
         }
