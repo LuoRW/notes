@@ -6050,6 +6050,8 @@ putstatic i // 线程2-将修改后的值存入静态变量i 静态变量i=-1
 >
 > synchronized 语句块既可以保证代码块的原子性，也同时保证代码块内变量的可见性。但缺点是 synchronized 是属于重量级操作，性能相对更低 。
 >
+> 
+>
 > JMM关于synchronized的两条规定：
 >
 > 　　1）线程解锁前，必须把共享变量的最新值刷新到主内存中
@@ -6060,9 +6062,13 @@ putstatic i // 线程2-将修改后的值存入静态变量i 静态变量i=-1
 >
 > 通过以上两点，可以看到synchronized能够实现可见性。同时，由于synchronized具有同步锁，所以它也具有原子性
 >
+> 
+>
 > 如果在前面示例的死循环中加入 System.out.println() 会发现即使不加 volatile 修饰符，线程 t 也能正确看到 对 run 变量的修改了，想一想为什么？(println方法中有synchronized代码块保证了可见性)
 >
-> synchronized关键字不能阻止指令重排，但在一定程度上能保证有序性（如果共享变量没有逃逸出同步代码块的话）。因为在单线程的情况下指令重排不影响结果，相当于保障了有序性。
+> 
+>
+> synchronized关键字不能阻止指令重排，但在一定程度上能保证有序性（如果共享变量没有逃逸出同步代码块z的话）。因为在单线程的情况下指令重排不影响结果，相当于保障了有序性。
 
 
 
@@ -7282,9 +7288,9 @@ public void withdraw(Integer amount) {
 
 > **注意** 
 >
-> 其实 CAS 的底层是 lock cmpxchg 指令（X86 架构），在单核 CPU 和多核 CPU 下都能够保证【比较-交 换】的原子性。
+> 其实 CAS 的底层是 lock cmpxchg 指令（X86 架构），在单核 CPU 和多核 CPU 下都能够保证【比较-交换】的原子性。
 >
-> 在多核状态下，某个核执行到带 lock 的指令时，CPU 会让总线锁住，当这个核把此指令执行完毕，再 开启总线。这个过程中不会被线程的调度机制所打断，保证了多个线程对内存操作的准确性，是原子 的。
+> 在多核状态下，某个核执行到带 lock 的指令时，CPU 会让总线锁住，当这个核把此指令执行完毕，再开启总线。这个过程中不会被线程的调度机制所打断，保证了多个线程对内存操作的准确性，是原子的。
 
 
 
@@ -7929,7 +7935,7 @@ for (int i = 0; i < 5; i++) {
 
 #### <font color='blue'>* 原理之伪共享(CPU 缓存结构)</font>
 
-##### **CPU 缓存结构**
+##### CPU 缓存结构
 
 ![image-20220317203911517](img\image-20220317203911517.png)
 
@@ -8897,7 +8903,7 @@ public final class String
 
 发现该类、类中所有属性都是 final 的 
 
-- 属性用 final 修饰保证了该属性是只读的，不能修改 
+- 属性用 final 修饰保证了该属性是只读的，不能修改
 - 类用 final 修饰保证了该类中的方法不能被覆盖，防止子类无意间破坏不可变性
 
 
@@ -9526,17 +9532,17 @@ class ThreadPool{
 public class ThreadPoolTest {
     public static void main(String[] args) {
         ThreadPool threadPool = new ThreadPool(1, 1000, TimeUnit.MILLISECONDS, 1, (queue,task)->{
-                    //死等
-//                    queue.put(task);
+            //死等
+            // queue.put(task);
             //带超时等待
-//            queue.offer(task, 1500, TimeUnit.MILLISECONDS);
+            // queue.offer(task, 1500, TimeUnit.MILLISECONDS);
             //让调用者放弃任务执行
-//            System.out.println("放弃：" + task);
+            // System.out.println("放弃：" + task);
             //让调用者抛出异常
-//            throw new RuntimeException("任务执行失败" + task);
+            // throw new RuntimeException("任务执行失败" + task);
             //让调用者自己执行任务
             task.run();
-                });
+		});
         for (int i = 0; i <3; i++) {
             int j = i;
             threadPool.execute(()->{
@@ -10597,7 +10603,7 @@ Fork/Join 是 JDK 1.7 加入的新的线程池实现，它体现的是一种分�
 
 所谓的任务拆分，是将一个大任务拆分为算法上相同的小任务，直至不能拆分可以直接求解。跟递归相关的一些计 算，如归并排序、斐波那契数列、都可以用分治思想进行求解 
 
-Fork/Join 在分治的基础上加入了多线程，可以把每个任务的分解和合并交给不同的线程来完成，进一步提升了运 算效率 
+Fork/Join 在分治的基础上加入了多线程，可以把每个任务的分解和合并交给不同的线程来完成，进一步提升了运 算效率
 
 Fork/Join 默认会创建与 cpu 核心数大小相同的线程池
 
@@ -10632,8 +10638,7 @@ class AddTask1 extends RecursiveTask<Integer> {
         log.debug("fork() {} + {}", n, t1);
 
         // 合并(join)结果
-        int result = n + t1.join();
-        log.debug("join() {} + {} = {}", n, t1, result);
+        int result = n + t1.join();l
         return result;
     }
 }
