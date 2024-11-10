@@ -36,6 +36,7 @@
 - 项目
 
   - [springboot3-vue3](doc/springboot3-vue3/笔记.md)
+  - [ruoyi](doc/ruoyi.md)
 
 - 其他
 
