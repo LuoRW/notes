@@ -40,6 +40,7 @@
 
 - 其他
 
+  - [知识点](/doc/ZSD.md)
   - [software](/doc/software.md)
   - [chrome](doc/chrome.md)
   - [jetbrains全家桶激活](/doc/jetbrains.md)
