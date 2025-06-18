@@ -27,6 +27,7 @@
   - [RabbitMQ-ctl](doc/RabbitMQ-ctl笔记.md)
   - [docker](doc/docker.md)
   - [cas](doc/cas.md)
+  - [SpringBoot整合H2数据库](blog/h2/SpringBoot整合H2数据库.md)
 
 - 数据库
 
