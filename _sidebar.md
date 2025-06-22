@@ -44,3 +44,4 @@
   - [software](/doc/software.md)
   - [chrome](doc/chrome.md)
   - [jetbrains全家桶激活](/doc/jetbrains.md)
+  - [Cursor快速上手和科学使用指南](blog/cursor/Cursor快速上手和科学使用指南.md)
